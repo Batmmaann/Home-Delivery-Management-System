@@ -1,13 +1,11 @@
- package HDMS;
+package HDMS;
 import java.util.*;
-
 public class TSP {
     private DeliveryGraphImpl<Location, Integer> graph;
 
     public TSP(DeliveryGraphImpl<Location, Integer> graph) {
         this.graph = graph;
     }
-
     // Nearest Neighbor Algorithm for TSP (no cycle completion)
     public List<Location> solve(Location startLocation) {
         List<Location> tour = new ArrayList<>();
@@ -28,11 +26,8 @@ public class TSP {
         } catch (GraphEmptyException e) {
             System.out.println("Error while accessing the graph: " + e.getMessage());
         }
-
-        // No need to return to the starting location; the tour ends here
         return tour;
     }
-
     // Get the nearest neighbor for the current location
     private Location getNearestNeighbor(Location location, Set<Location> visited) throws GraphEmptyException {
         List<Location> neighbors = graph.getNeighbors(location);
@@ -50,7 +45,6 @@ public class TSP {
         }
         return nearestNeighbor;
     }
-
     // Calculate the total distance of the tour
     public int calculateTourDistance(List<Location> tour) throws GraphEmptyException {
         int totalDistance = 0;
@@ -58,7 +52,6 @@ public class TSP {
         for (int i = 0; i < tour.size() - 1; i++) {
             totalDistance += graph.getEdgeWeight(tour.get(i), tour.get(i + 1));
         }
-
         return totalDistance;
     }
 }

@@ -14,7 +14,7 @@ public class HomeDeliveryManagementSystem extends JFrame {
         locations = new ArrayList<>();
         
         // Setup frame
-        setTitle("Delivery Route Visualization");
+        setTitle("Home Delivery Management System");
         setSize(1100, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -60,7 +60,7 @@ public class HomeDeliveryManagementSystem extends JFrame {
         drawPanel.setBackground(Color.LIGHT_GRAY);
         add(drawPanel, BorderLayout.CENTER);
 
-        // Information area (Text Area for displaying route and cost details)
+        // Information area, Text Area for displaying route and cost details.
         infoArea = new JTextArea(4, 30);
         infoArea.setEditable(false);
         add(new JScrollPane(infoArea), BorderLayout.SOUTH);
@@ -90,7 +90,6 @@ public class HomeDeliveryManagementSystem extends JFrame {
             }
         });
     }
-
     // Add location to the list
     private void addLocation() {
         try {
@@ -110,37 +109,32 @@ public class HomeDeliveryManagementSystem extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid coordinates. Please enter valid numbers.");
         }
     }
-
     // Show the route based on TSP solution
     private void showRoute() {
         if (locations.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No locations to process. Please add some locations.");
             return;
         }
-
         // Create a new DeliveryGraphImpl and populate it with locations
         DeliveryGraphImpl<Location, Integer> graph = new DeliveryGraphImpl<>();
 
-        // Add the locations to the graph (assuming distances are calculated for edges)
+        // Add the locations to the graph 
         for (Location location : locations) {
             graph.addVertex(location);
         }
-
-        // Add edges based on the locations (you can use your custom logic to calculate distances)
+        // Add edges based on the locations 
         for (int i = 0; i < locations.size(); i++) {
             for (int j = i + 1; j < locations.size(); j++) {
-                Location from = locations.get(i);
-                Location to = locations.get(j);
-                // Calculate the distance in meters (keep the number as meters directly)
-                int distance = (int) from.distanceTo(to);  // Assume distance is already in meters
-                graph.addEdge(from, to, distance);  // Add edge between locations
+                Location a = locations.get(i);
+                Location b = locations.get(j);
+                int distance = (int) a.distanceTo(b);
+                graph.addEdge(a, b, distance);  // Add edge between locations
             }
         }
-
         // Now you can use this populated graph with TSP
         TSP tspSolver = new TSP(graph);
         List<Location> tour = tspSolver.solve(locations.get(0));
-
+        
         // Display route information
         StringBuilder sb = new StringBuilder();
         sb.append("Shortest Delivery Route: ");
@@ -174,10 +168,6 @@ public class HomeDeliveryManagementSystem extends JFrame {
 
         repaint(); // Refresh the drawing panel to show the locations and the route
     }
-
-
-
-
     // Clear the last location added
     private void clearLocation() {
         if (!locations.isEmpty()) {
@@ -185,7 +175,6 @@ public class HomeDeliveryManagementSystem extends JFrame {
         }
         repaint(); // Refresh the drawing panel to reflect the changes
     }
-
     // Clear the route (reset the panel)
     private void clearRoute() {
         // Clear the route info in the text area
@@ -197,9 +186,7 @@ public class HomeDeliveryManagementSystem extends JFrame {
         // Repaint the drawing panel to reset the visualization
         repaint();
     }
-
-
- // Draw the locations and routes
+    // Draw the locations and routes
     private void drawRoute(Graphics g) {
         if (locations.isEmpty()) return;
 
@@ -251,7 +238,6 @@ public class HomeDeliveryManagementSystem extends JFrame {
             // Draw the name of the location slightly away from the dot
             g.drawString(loc.getName(), x + 12, y + 15);  // Move the name slightly below the dot
         }
-
         // Draw lines based on the shortest route order
         g.setColor(Color.BLACK);
         for (int i = 0; i < tour.size() - 1; i++) {
